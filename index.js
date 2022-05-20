@@ -1,23 +1,28 @@
-var AWS = require('aws-sdk');
+const AWS = require("aws-sdk");
 // Set the region 
 AWS.config.update({region: 'us-east-2'});
 
 // Create the DynamoDB service object
 var ddb = new AWS.DynamoDB({apiVersion: '2012-08-10'});
 
+exports.handler = async (event, context) => {
+ 
+  let requestJSON = JSON.parse(event.body);
+
+}
 var params = {
   TableName: 'serverlessrepo-AestheticsFormDB-FormDataTable-1M0ZV9SXX6E4S',
   Item: {
-    'formId' : {N: '002'},
-    'CreditApp' : {S: 'Yes'},
-    'followUp' : {S: 'Yes'},
-    'injectables' : {S: 'Yes'},
-    'marketing' : {S: 'Yes'},
-    'meetAgain' : {S: 'Yes'},
-    'meetingRating' : {N: '8'},
-    'NoOfPatients' : {N: '500'},
-    'ReachOut' : {S: 'Yes'},
-    'SoloOwner' : {S: 'Yes'},
+    'formId' : {S: `${JSON.stringify(event.body.formId)}`},
+    'CreditApp' : {S: `${JSON.stringify(event.body.creditPractice)}`},
+    'FollowUp' : {S: `${JSON.stringify(event.body.followUp)}`},
+    'Injectables' : {S: `${JSON.stringify(event.body.injectables)}`},
+    'Marketing' : {S: `${JSON.stringify(event.body.marketing)}`},
+    'MeetAgain' : {S: `${JSON.stringify(event.body.meetAgain)}`},
+    'MeetingRating' : {N: `${JSON.stringify(event.body.scale)}`},
+    'NoOfPatients' : {N: `${JSON.stringify(event.body.patientCount)}`},
+    'ReachOut' : {S: `${JSON.stringify(event.body.reachOut)}`},
+    'SoloOwner' : {S: `${JSON.stringify(event.body.soloOwner)}`},
   }
 };
 
