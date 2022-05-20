@@ -7,31 +7,20 @@ var ddb = new AWS.DynamoDB({apiVersion: '2012-08-10'});
 
 exports.handler = async (event) => {
  console.log('EVENT: ', event)
- const formId = event.formId
- const creditPractice = event.creditPractice
- const followUp = event.followUp
- const Injectables = event.Injectables
- const Marketing = event.marketing
- const MeetAgain = event.meetAgain
- const MeetingRating = event.meetingRating
- const PatientCount = event.patientCount
- const ReachOut = event.reachOut
- const SoloOwner = event.soloOwner
-  
 
 var params = {
   TableName: 'serverlessrepo-AestheticsFormDB-FormDataTable-1M0ZV9SXX6E4S',
   Item: {
     'formId' : {S: formId},
-    'CreditApp' : {S: `${event.creditPractice}`},
-    'FollowUp' : {S: `${event.followUp}`},
-    'Injectables' : {S: `${event.Injectables}`},
-    'Marketing' : {S: `${event.marketing}`},
-    'MeetAgain' : {S: `${event.meetAgain}`},
-    'MeetingRating' : {N: `${event.scale}`},
-    'NoOfPatients' : {N: `${event.patientCount}`},
-    'ReachOut' : {S: `${event.reachOut}`},
-    'SoloOwner' : {S: `${event.soloOwner}`},
+    'CreditApp' : {S: event.creditPractice},
+    'FollowUp' : {S: event.followUp},
+    'Injectables' : {S: event.Injectables},
+    'Marketing' : {S: event.marketing},
+    'MeetAgain' : {S: event.meetAgain},
+    'MeetingRating' : {N: event.scale},
+    'NoOfPatients' : {N: event.patientCount},
+    'ReachOut' : {S: event.reachOut},
+    'SoloOwner' : {S: event.soloOwner},
   }
 };
 
