@@ -1,35 +1,40 @@
-const AWS = require("aws-sdk");
-// Set the region 
-AWS.config.update({region: 'us-east-2'});
+const AWS = require('aws-sdk');
+const docClient = new AWS.DynamoDB.DocumentClient();
 
-// Create the DynamoDB service object
-var ddb = new AWS.DynamoDB({apiVersion: '2012-08-10'});
 
 exports.handler = async (event) => {
- console.log('EVENT: ', event)
-
-var params = {
-  TableName: 'serverlessrepo-AestheticsFormDB-FormDataTable-1M0ZV9SXX6E4S',
-  Item: {
-    'formId' : {S: formId},
-    'CreditApp' : {S: event.creditPractice},
-    'FollowUp' : {S: event.followUp},
-    'Injectables' : {S: event.Injectables},
-    'Marketing' : {S: event.marketing},
-    'MeetAgain' : {S: event.meetAgain},
-    'MeetingRating' : {N: event.scale},
-    'NoOfPatients' : {N: event.patientCount},
-    'ReachOut' : {S: event.reachOut},
-    'SoloOwner' : {S: event.soloOwner},
+  console.log(event)
+  try {
+    await createItem()
+    return { body: 'Successfully created item!' }
+  } catch (err) {
+    return { error: err }
   }
-};
-
-// Call DynamoDB to add the item to the table
-ddb.putItem(params, function(err, data) {
-  if (err) {
-    console.log("Error", err);
-  } else {
-    console.log("Success", data);
-  }
-});
 }
+
+console.log(event.formId)
+const params = {
+  TableName: 'serverlessrepo-AestheticsFormDB-FormDataTable-1M0ZV9SXX6E4S',
+      Item: {
+      formId : "5",
+    	CreditApp : "fdasa",
+    	FollowUp : "event.followUp",
+    	Injectables : "event.injectables",
+    	Marketing : "event.marketing",
+    	MeetAgain : "event.meetAgain",
+    	MeetingRating : "event.scale",
+    	NoOfPatients : "event.patientCount",
+    	ReachOut : "event.reachOut",
+    	SoloOwner : "event.soloOwner"
+  }
+}
+
+async function createItem(){
+  try {
+    await docClient.put(params).promise();
+  } catch (err) {
+    return err;
+  }
+}
+
+;
